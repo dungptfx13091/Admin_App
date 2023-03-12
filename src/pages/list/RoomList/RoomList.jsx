@@ -3,17 +3,52 @@ import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import "../css/datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { roomColumns, roomRows } from "../../../datatablesource";
+import { roomColumns } from "../../../datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const storedJwt = localStorage.getItem("token");
 
 const Datatable = () => {
-  const [data, setData] = useState(roomRows);
+  const [roomData, setRoomData] = useState([]);
+  useEffect(() => {
+    const dataFetch = async () => {
+      const rooms = await (
+        await fetch("http://localhost:5000/admin/rooms/list", {
+          headers: { Authentication: `Bearer ${storedJwt}` },
+        })
+      ).json();
+      setRoomData(rooms);
+    };
+    dataFetch();
+  }, []);
+
+  const roomRows = roomData?.map((room) => {
+    return {
+      id: room._id,
+      title: room.title,
+      desc: room.desc,
+      price: room.price,
+      maxPeople: room.maxPeople,
+    };
+  });
 
   const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+    if (window.confirm("Are you sure")) {
+      fetch(`http://localhost:5000/admin/rooms/delete?id=${id}`, {
+        method: "DELETE",
 
+        headers: { Authentication: `Bearer ${storedJwt}` },
+      })
+        .then((res) => {
+          return res.json();
+        })
+        .then((data) => {
+          console.log(data);
+          setRoomData(data.rooms);
+        });
+    }
+  };
   const actionColumn = [
     {
       field: "action",
@@ -51,7 +86,7 @@ const Datatable = () => {
       </div>
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={roomRows}
         columns={roomColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}

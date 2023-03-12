@@ -1,24 +1,30 @@
 export const userColumns = [
-  { field: "id", headerName: "ID", width: 190 },
+  { field: "id", headerName: "ID", width: 170 },
   {
     field: "user",
     headerName: "User",
     width: 150,
   },
   {
+    field: "fullName",
+    headerName: "Full Name",
+    width: 190,
+  },
+  {
     field: "email",
     headerName: "Email",
-    width: 300,
+    width: 220,
   },
   {
-    field: "age",
-    headerName: "Age",
+    field: "phoneNumber",
+    headerName: "Phone Number",
     width: 150,
   },
+
   {
-    field: "status",
-    headerName: "Status",
-    width: 150,
+    field: "isAdmin",
+    headerName: "Admin",
+    width: 110,
   },
 ];
 
@@ -107,87 +113,27 @@ export const hotelColumns = [
   },
 ];
 
-//Hotel List data
-export const hotelRows = [
-  {
-    id: "6311a54g54nb36n31",
-    name: "HANOI ROYAL PALACE HOTEL 2",
-    type: "hotel",
-    city: "Ha Noi",
-    address: "123, LTT, HK, Ha Noi",
-    distance: 100,
-    photos: "",
-    desc: 4.5,
-    rating: "",
-    featured: "",
-    rooms: [],
-    title: "HANOI ROYAL PALACE HOTEL 2",
-  },
-  {
-    id: "6311a54g54mr7882j",
-    name: "La Sinfonia del Rey Hotel and Spa",
-    type: "hotel",
-    city: "Ha Noi",
-    address: "123, LTT, HK, Ha Noi",
-    distance: 100,
-    photos: "",
-    desc: 4.5,
-    rating: "",
-    featured: "",
-    rooms: [],
-    title: "La Sinfonia del Rey Hotel and Spa",
-  },
-  {
-    id: "6311a54g5959hfd45",
-    name: "May De Ville Legend Hotel & Spa",
-    type: "hotel",
-    city: "Ha Noi",
-    address: "123, LTT, HK, Ha Noi",
-    distance: 100,
-    photos: "",
-    desc: 4.5,
-    rating: "",
-    featured: "",
-    rooms: [],
-    title: "May De Ville Legend Hotel & Spa",
-  },
-  {
-    id: "6311a54gui3h5huu33",
-    name: "Alagon Saigon Hotel & Spa",
-    type: "hotel",
-    city: "Ho Chi Minh",
-    address: "123, LTT, HK, Ha Noi",
-    distance: 100,
-    photos: "",
-    desc: 4.5,
-    rating: "",
-    featured: "",
-    rooms: [],
-    title: "Alagon Saigon Hotel & Spa",
-  },
-];
-
 export const roomColumns = [
   { field: "id", headerName: "ID", width: 190 },
   {
     field: "title",
     headerName: "Title",
-    width: 250,
+    width: 230,
   },
   {
     field: "desc",
     headerName: "Description",
-    width: 30,
+    width: 400,
   },
   {
     field: "price",
     headerName: "Price",
-    width: 120,
+    width: 90,
   },
   {
     field: "maxPeople",
     headerName: "Max People",
-    width: 120,
+    width: 100,
   },
 ];
 
@@ -259,16 +205,16 @@ export const roomRows = [
 ];
 
 export const transactionColumns = [
-  { field: "id", headerName: "ID", width: 190 },
+  { field: "id", headerName: "ID", width: 160 },
   {
     field: "user",
     headerName: "User",
-    width: 100,
+    width: 140,
   },
   {
     field: "hotel",
     headerName: "Hotel",
-    width: 250,
+    width: 240,
   },
   {
     field: "room",

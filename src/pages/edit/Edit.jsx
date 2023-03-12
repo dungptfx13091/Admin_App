@@ -51,13 +51,7 @@ export const EditHotel = () => {
                 </select>
               </div>
               <div className="roomInput">
-                <label htmlFor="rooms">
-                  Rooms
-                  {/* <span className="thinText">
-                    Hold down the Ctrl (windows) or Command (Mac) button to
-                    select multiple options
-                  </span> */}
-                </label>
+                <label htmlFor="rooms">Rooms</label>
                 <select
                   id="room"
                   multiple={true}

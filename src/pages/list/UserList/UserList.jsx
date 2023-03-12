@@ -3,34 +3,48 @@ import Sidebar from "../../../components/sidebar/Sidebar";
 import Navbar from "../../../components/navbar/Navbar";
 import "../css/datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns, userRows } from "../../../datatablesource";
+import { userColumns } from "../../../datatablesource";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const storedJwt = localStorage.getItem("token");
 
 const Datatable = () => {
-  const [data, setData] = useState(userRows);
+  const [userData, setUserData] = useState([]);
+  useEffect(() => {
+    const dataFetch = async () => {
+      const users = await (
+        await fetch("http://localhost:5000/admin/users/list", {
+          headers: { Authentication: `Bearer ${storedJwt}` },
+        })
+      ).json();
+      setUserData(users);
+    };
+    dataFetch();
+  }, []);
 
-  const handleDelete = (id) => {
-    setData(data.filter((item) => item.id !== id));
-  };
+  const userRows = userData?.map((user) => {
+    return {
+      id: user._id,
+      user: user.userName,
+      email: user.email,
+      phoneNumber: user.phoneNumber,
+      fullName: user.fullName,
+      isAdmin: user.isAdmin,
+    };
+  });
 
   const actionColumn = [
     {
       field: "action",
       headerName: "Action",
       width: 200,
-      renderCell: (params) => {
+      renderCell: () => {
         return (
           <div className="cellAction">
             <Link to="/users/test" style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
-            <div
-              className="deleteButton"
-              onClick={() => handleDelete(params.row.id)}
-            >
-              Delete
-            </div>
           </div>
         );
       },
@@ -41,7 +55,7 @@ const Datatable = () => {
       <div className="datatableTitle">Users List</div>
       <DataGrid
         className="datagrid"
-        rows={data}
+        rows={userRows}
         columns={userColumns.concat(actionColumn)}
         pageSize={9}
         rowsPerPageOptions={[9]}

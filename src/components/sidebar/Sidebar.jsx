@@ -10,6 +10,10 @@ import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 import { Link } from "react-router-dom";
 
 const Sidebar = () => {
+  const handleLogout = () => {
+    window.localStorage.setItem("token", "");
+    window.location.href = "/login";
+  };
   return (
     <div className="sidebar">
       <div className="top">
@@ -70,7 +74,9 @@ const Sidebar = () => {
 
           <li>
             <ExitToAppIcon className="icon" />
-            <span>Logout</span>
+            <button id="logout" onClick={handleLogout}>
+              Logout
+            </button>
           </li>
         </ul>
       </div>
