@@ -11,8 +11,10 @@ import { Link } from "react-router-dom";
 
 const Sidebar = () => {
   const handleLogout = () => {
-    window.localStorage.setItem("token", "");
-    window.location.href = "/login";
+    if (window.confirm("Are you sure?")) {
+      window.localStorage.setItem("token", "");
+      window.location.href = "/login";
+    }
   };
   return (
     <div className="sidebar">
