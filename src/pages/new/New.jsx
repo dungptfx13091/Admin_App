@@ -1,7 +1,7 @@
 import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const storedJwt = localStorage.getItem("token");
 
@@ -18,7 +18,7 @@ export const NewHotel = () => {
   const [featured, setFeatured] = useState(false);
   const [rooms, setRooms] = useState([]);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log(
@@ -44,14 +44,13 @@ export const NewHotel = () => {
       !desc ||
       !rating ||
       !image ||
-      !featured ||
       !rooms
     ) {
       alert("fill all");
     } else {
       console.log("send request");
 
-      fetch("http://localhost:5000/admin/hotels/add", {
+      await fetch("http://localhost:5000/admin/hotels/add", {
         method: "POST",
         crossDomain: true,
         headers: {
@@ -76,6 +75,7 @@ export const NewHotel = () => {
       }).then((res) => {
         return res.json();
       });
+      window.location.href = "/hotels";
     }
   };
 
@@ -245,8 +245,20 @@ export const NewRoom = () => {
   const [price, setPrice] = useState(0);
   const [maxPeople, setMaxPeople] = useState(0);
   const [roomNumbers, setRoomNumbers] = useState([]);
+  const [hotels, setHotels] = useState([]);
+  useEffect(() => {
+    const dataFetch = async () => {
+      const hotels = await (
+        await fetch("http://localhost:5000/admin/hotels/list", {
+          headers: { Authentication: `Bearer ${storedJwt}` },
+        })
+      ).json();
+      setHotels(hotels);
+    };
+    dataFetch();
+  }, []);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     console.log(title, desc, price, maxPeople, roomNumbers);
@@ -255,7 +267,7 @@ export const NewRoom = () => {
     } else {
       console.log("send request");
 
-      fetch("http://localhost:5000/rooms/add", {
+      await fetch("http://localhost:5000/admin/rooms/add", {
         method: "POST",
         crossDomain: true,
         headers: {
@@ -275,6 +287,7 @@ export const NewRoom = () => {
         console.log(res.json);
         return res.json();
       });
+      window.location.href = "/rooms";
     }
   };
 
@@ -348,10 +361,9 @@ export const NewRoom = () => {
               <div className="formInput">
                 <label htmlFor="feature">Choose a hotel</label>
                 <select style={{ border: "1.2px solid" }}>
-                  <option>HANOI ROYAL PALACE HOTEL 2</option>
-                  <option>La Sinfonia del Rey Hotel and Spa</option>
-                  <option>May De Ville Legend Hotel & Spa</option>
-                  <option>Alagon Saigon Hotel & Spa</option>
+                  {hotels?.map((hotel) => {
+                    return <option key={hotel._id}>{hotel.name}</option>;
+                  })}
                 </select>
               </div>
               <div className="roomInput"></div>
